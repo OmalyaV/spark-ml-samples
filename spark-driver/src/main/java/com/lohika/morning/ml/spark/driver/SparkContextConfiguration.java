@@ -17,6 +17,8 @@ public class SparkContextConfiguration {
 
     @Bean
     public SparkSession sparkSession() {
+        System.setProperty("hadoop.home.dir", "d:\\projects\\spark-ml-samples\\hadoop");
+        
         SparkConf sparkConf = new SparkConf()
                 .setMaster(master)
                 .setAppName(applicationName)

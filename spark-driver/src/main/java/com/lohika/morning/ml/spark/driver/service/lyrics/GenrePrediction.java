@@ -1,15 +1,15 @@
 package com.lohika.morning.ml.spark.driver.service.lyrics;
 
+import java.util.Map;
+
 public class GenrePrediction {
 
     private String genre;
-    private Double metalProbability;
-    private Double popProbability;
+    private Map<String, Double> probabilities;
 
-    public GenrePrediction(String genre, Double metalProbability, Double popProbability) {
+    public GenrePrediction(String genre, Map<String, Double> probabilities) {
         this.genre = genre;
-        this.metalProbability = metalProbability;
-        this.popProbability = popProbability;
+        this.probabilities = probabilities;
     }
 
     public GenrePrediction(String genre) {
@@ -20,11 +20,7 @@ public class GenrePrediction {
         return genre;
     }
 
-    public Double getMetalProbability() {
-        return metalProbability;
-    }
-
-    public Double getPopProbability() {
-        return popProbability;
+    public Map<String, Double> getProbabilities() {
+        return probabilities;
     }
 }

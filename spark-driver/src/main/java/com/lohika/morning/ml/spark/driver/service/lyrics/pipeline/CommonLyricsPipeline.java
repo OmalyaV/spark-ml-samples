@@ -56,16 +56,23 @@ public abstract class CommonLyricsPipeline implements LyricsPipeline {
             System.out.println("Probability: " + probability);
             System.out.println("------------------------------------------------\n");
 
-            return new GenrePrediction(getGenre(prediction).getName(), probability.apply(0), probability.apply(1));
+            Map<String, Double> probabilities = new HashMap<>();
+            for (Genre g : Genre.values()) {
+                int idx = g.getValue().intValue();
+                if (idx >= 0 && idx < probability.size()) {
+                    probabilities.put(g.getName(), probability.apply(idx));
+                }
+            }
+            return new GenrePrediction(Genre.fromValue(prediction).getName(), probabilities);
         }
 
         System.out.println("------------------------------------------------\n");
-        return new GenrePrediction(getGenre(prediction).getName());
+        return new GenrePrediction(Genre.fromValue(prediction).getName());
     }
 
     Dataset<Row> readLyrics() {
-        Dataset input = readLyricsForGenre(lyricsTrainingSetDirectoryPath, Genre.METAL)
-                                                .union(readLyricsForGenre(lyricsTrainingSetDirectoryPath, Genre.POP));
+        Dataset input = readLyricsForGenre(lyricsTrainingSetDirectoryPath, Genre.POP)
+                                                .union(readLyricsForGenre(lyricsTrainingSetDirectoryPath, Genre.ROCK));
         // Reduce the input amount of partition minimal amount (spark.default.parallelism OR 2, whatever is less)
         input = input.coalesce(sparkSession.sparkContext().defaultMinPartitions()).cache();
         // Force caching.
@@ -94,15 +101,7 @@ public abstract class CommonLyricsPipeline implements LyricsPipeline {
         return lyrics;
     }
 
-    private Genre getGenre(Double value) {
-        for (Genre genre: Genre.values()){
-            if (genre.getValue().equals(value)) {
-                return genre;
-            }
-        }
 
-        return Genre.UNKNOWN;
-    }
 
     @Override
     public Map<String, Object> getModelStatistics(CrossValidatorModel model) {

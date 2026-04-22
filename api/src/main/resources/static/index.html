@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyrics Genre Classifier</title>
+    <meta name="description" content="Classify song lyrics into genres using Spark MLlib - Pop, Country, Blues, Jazz, Reggae, Rock, Hip Hop">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-glow"></div>
+            <h1 class="title">
+                <span class="title-icon">🎵</span>
+                Lyrics Genre Classifier
+            </h1>
+            <p class="subtitle">Paste song lyrics and discover the genre using Spark MLlib &amp; Naive Bayes</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Left Panel: Input -->
+            <section class="panel input-panel" id="input-panel">
+                <h2 class="panel-title">
+                    <span class="panel-icon">📝</span>
+                    Enter Lyrics
+                </h2>
+
+                <textarea
+                    id="lyrics-input"
+                    class="lyrics-textarea"
+                    placeholder="Paste song lyrics here...&#10;&#10;For example:&#10;love heart feel break hold time convince speak voice tear try hold hurt forgive play string want tell real truth lie worse anymore little turn dust..."
+                    rows="14"
+                ></textarea>
+
+                <div class="button-row">
+                    <button id="classify-btn" class="btn btn-primary" onclick="classifyLyrics()">
+                        <span class="btn-icon">🔍</span>
+                        Classify Genre
+                    </button>
+                    <button class="btn btn-ghost" onclick="clearAll()">
+                        <span class="btn-icon">✕</span>
+                        Clear
+                    </button>
+                </div>
+
+                <!-- Status -->
+                <div id="status" class="status hidden"></div>
+            </section>
+
+            <!-- Right Panel: Results -->
+            <section class="panel results-panel" id="results-panel">
+                <h2 class="panel-title">
+                    <span class="panel-icon">📊</span>
+                    Classification Results
+                </h2>
+
+                <!-- Predicted Genre Badge -->
+                <div id="prediction-badge" class="prediction-badge hidden">
+                    <span class="badge-label">Predicted Genre</span>
+                    <span id="predicted-genre" class="badge-value"></span>
+                </div>
+
+                <!-- Charts Container -->
+                <div id="charts-container" class="charts-container hidden">
+                    <!-- Bar Chart -->
+                    <div class="chart-card">
+                        <h3 class="chart-title">Genre Probabilities</h3>
+                        <canvas id="bar-chart" width="500" height="300"></canvas>
+                    </div>
+
+                    <!-- Pie Chart -->
+                    <div class="chart-card">
+                        <h3 class="chart-title">Distribution</h3>
+                        <div class="pie-wrapper">
+                            <canvas id="pie-chart" width="280" height="280"></canvas>
+                            <div id="pie-legend" class="pie-legend"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Probability Table -->
+                <div id="prob-table-container" class="prob-table-container hidden">
+                    <h3 class="chart-title">Detailed Probabilities</h3>
+                    <table class="prob-table" id="prob-table">
+                        <thead>
+                            <tr>
+                                <th>Genre</th>
+                                <th>Probability</th>
+                                <th>Confidence</th>
+                            </tr>
+                        </thead>
+                        <tbody id="prob-table-body"></tbody>
+                    </table>
+                </div>
+
+                <!-- Placeholder when no results -->
+                <div id="placeholder" class="placeholder">
+                    <div class="placeholder-icon">🎶</div>
+                    <p>Paste lyrics and click <strong>Classify Genre</strong> to see results.</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Built with Apache Spark MLlib &bull; Naive Bayes + TF-IDF &bull; 7-class Mendeley Dataset</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
